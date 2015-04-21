@@ -68,6 +68,9 @@ class Token(models.Model):
     scope = property(**scope_property())
 
     _id_token = models.TextField()
+    
+    def has_expired(self):
+        return timezone.now() >= self.expires_at
 
     def id_token():
         def fget(self):
