@@ -46,8 +46,10 @@ class TokenEndpoint(object):
 
             self.code = Code.objects.get(code=self.params.code)
 
-            if not (self.code.client == self.client) and \
-               not self.code.has_expired():
+            if not (self.code.client == self.client):
+                raise TokenError('invalid_grant')
+            
+            if self.code.has_expired():
                 raise TokenError('invalid_grant')
 
         except Client.DoesNotExist:
